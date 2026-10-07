@@ -109,13 +109,21 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .theme-toggle { position: absolute; top: .9rem; right: 0; background: transparent; border: 1px solid var(--silver); border-radius: 999px; min-height: 30px; padding: 0 .7rem; font-size: .72rem; color: var(--ink-soft); }
 
-/* Tabs (已縮小分類按鈕與字體) */
+/* Tabs：等寬、同一行、縮小 */
 .tabbar { padding: .4rem 0; margin-bottom: 1.8rem; }
-.tabs { display: flex; flex-wrap: nowrap; justify-content: center; gap: .35rem; }
+.tabs {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: .3rem;
+  max-width: 400px;
+  margin-inline: auto;
+}
 .tab {
   border: 1px solid var(--silver); background: transparent; border-radius: 999px;
-  padding: .1rem .7em; font-family: var(--serif); color: var(--ink-soft);
-  min-height: 32px; font-size: clamp(.75rem, 3vw, .82rem); white-space: nowrap;
+  padding: .1rem .3em; font-family: var(--serif); color: var(--ink-soft);
+  min-height: 34px; font-size: clamp(.72rem, 3.3vw, .85rem); white-space: nowrap;
+  text-align: center; min-width: 0;
 }
 .tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
@@ -224,14 +232,13 @@ dialog::backdrop { background: rgba(20, 35, 65, .5); backdrop-filter: blur(5px);
 .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: .45rem; margin: 1.4rem 0 1.6rem; padding: 0; list-style: none; }
 .tags li { font-size: .82rem; padding: .1rem .7rem; border-radius: 999px; background: color-mix(in srgb, var(--sky) 45%, transparent); color: var(--ink); }
 .links { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
-
-/* 按鈕樣式 (已縮小聯絡我與對話連結按鈕) */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; min-height: 36px;
-  padding: .2rem 1.1rem; border-radius: 999px; text-decoration: none; font-family: var(--serif); font-size: .88rem; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+  padding: .4rem 1.4rem; border-radius: 999px; text-decoration: none; font-family: var(--serif); font-weight: 700;
   background: var(--accent); color: var(--on-accent); border: 1.5px solid var(--accent);
 }
 .btn.alt { background: transparent; color: var(--accent-deep); }
+.btn.off { background: transparent; color: var(--ink-soft); border-color: var(--silver); opacity: .7; cursor: not-allowed; pointer-events: none; user-select: none; }
 .nav { display: flex; justify-content: space-between; align-items: center; gap: .6rem; margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--silver-soft); position: relative; }
 .nav button, .close {
   background: transparent; border: 1px solid var(--silver); border-radius: 999px; min-height: 44px; padding: .2rem 1.1rem; font-family: var(--serif);
@@ -258,7 +265,9 @@ dialog::backdrop { background: rgba(20, 35, 65, .5); backdrop-filter: blur(5px);
 .avatar > * { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
 .author-card h3 { font-family: var(--serif); font-size: 1.5rem; margin: 0 0 .4rem; letter-spacing: .12em; }
 .author-card p { margin: 0 auto 1.2rem; max-width: 32rem; font-family: var(--serif); line-height: 1.95; color: var(--ink-soft); }
-.contacts { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; position: relative; }
+.contacts { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; position: relative; }
+/* 聯絡我頁面的按鈕：縮小 */
+.contacts .btn { min-height: 34px; padding: .15rem 1.1rem; font-size: .85rem; border-width: 1px; }
 
 footer { text-align: center; padding: 3rem 0 2.5rem; color: var(--ink-soft); font-size: .85rem; }
 main { min-height: 40vh; }
@@ -345,14 +354,20 @@ main { min-height: 40vh; }
 <script>
 /* ============================================================
    在這裡改內容就好。
+   新增角色：複製一整個 { ... }，貼在該分類最後一個後面，cat 填分類代號（qq 或 yd）。
+   新增系列照：在 PHOTOS 的 photos 裡加 { image: "", caption: "" }（建議 8 到 11 張）。
+   image：單張圖片路徑；images：多張圖片（點開後可左右滑），例如 images: ["images/a.jpg", "images/b.jpg"]。
+   留空會顯示柔色佔位圖。
+   links：一個或兩個都可以，每個是 { label: "按鈕文字", url: "網址" }。
+   Coming soon 框框會自動排在每個分類的最後面；不要的話把 comingSoon 改成 false。
    ============================================================ */
 const SITE = {
-  title: "角色任意門"
+  title: "角色卡冊",
+  footerName: "linxi & xxx"   /* 網頁最下面的版權署名（跟「聯絡我」的名字分開） */
 };
 
-/* 已將林汐改為 linxi & xxx */
 const AUTHOR = {
-  name: "linxi & xxx",
+  name: "林汐",               /* 「聯絡我」頁面顯示的名字 */
   avatar: "",
   bio: "在各自的時間線幸福吧。",
   contacts: [
@@ -424,6 +439,9 @@ const CHARACTERS = [
   { cat: "qq", name: "向陽", subtitle: "「山不轉路轉，路不轉就我轉囉。」", images: pics("xiangyang", 4),
     facts: [], intro: "", tags: ["兒時玩伴", "陽光小狗", "治癒", "直球"],
     links: [{ label: "前往對話", url: "https://loveydovey.onelink.me/vs4G/ku9khj34" }] },
+  { cat: "qq", name: "藍澄禮", subtitle: "「你是我唯一承認的奇蹟。」", images: pics("chenli", 4),
+    facts: [], intro: "", tags: ["？"],
+    links: [{ label: "尚未公開", url: "" }] },
 
   /* ---- 鴨答鴨答（6 位） ---- */
   { cat: "yd", name: "梁斐川", subtitle: "「被注入情感的東西，都有了被毀滅的資格。」", images: pics("feichuan", 6),
@@ -443,7 +461,7 @@ const CHARACTERS = [
     links: [{ label: "前往對話", url: "https://caveduck.io/character-info/d97129d1-2377-4b6a-8966-9d1b490c5df5" }] }
 ];
 
-/* ============================ 以下是頁面程式 ============================ */
+/* ============================ 以下是頁面程式，通常不用改 ============================ */
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const safeUrl = (u) => /^(https?:|mailto:)/i.test(u || "") ? u : "#";
@@ -467,7 +485,7 @@ async function toBlob(href) {
   }
   return (await fetch(href)).blob();
 }
-
+/* 一般網站（例如 GitHub Pages）：下載連結直接運作。預覽環境：改用平台的儲存視窗。 */
 document.addEventListener("click", async (e) => {
   const a = e.target.closest("a.dl");
   if (!a) return;
@@ -504,7 +522,7 @@ document.addEventListener("error", (e) => {
 /* header, footer */
 document.title = SITE.title;
 $("siteTitle").textContent = SITE.title;
-$("footer").textContent = "© " + new Date().getFullYear() + " " + AUTHOR.name;
+$("footer").textContent = "© " + new Date().getFullYear() + " " + SITE.footerName;
 
 /* tabs */
 const TABS = [
@@ -563,7 +581,8 @@ function renderAlbumList() {
     <ul class="album-list">${PHOTOS.albums.map((a, i) => `
       <li><button class="card" type="button" data-album="${i}" aria-label="打開 ${esc(a.title)}，共 ${a.photos.length} 張">
         <span class="frame wide">${imgTag(a.cover || (a.photos[0] && a.photos[0].image), i + 2, a.title)}</span>
-        <span class="name">${esc(a.title)}</span>${a.blurb ? `<span class="sub">${esc(a.blurb)}</span>` : ""}
+        <span class="name">${esc(a.title)}</span>
+        ${a.blurb ? `<span class="sub">${esc(a.blurb)}</span>` : ""}
         <span class="album-count">${a.photos.length} 張照片</span>
       </button></li>`).join("")}</ul>`;
 }
@@ -644,8 +663,9 @@ function fill(i) {
   $("dlgIntro").textContent = c.intro || "";
   $("dlgIntro").hidden = !c.intro;
   $("dlgTags").innerHTML = (c.tags || []).map((t) => `<li>#${esc(t)}</li>`).join("");
-  $("dlgLinks").innerHTML = (c.links || []).map((l, n) =>
-    `<a class="btn ${n ? "alt" : ""}" href="${esc(safeUrl(l.url))}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`).join("");
+  $("dlgLinks").innerHTML = (c.links || []).map((l, n) => !l.url
+    ? `<span class="btn off" role="button" aria-disabled="true">${esc(l.label)}</span>`
+    : `<a class="btn ${n ? "alt" : ""}" href="${esc(safeUrl(l.url))}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`).join("");
   dlg.querySelector(".sheet-scroll").scrollTop = 0;
 }
 $("slides").addEventListener("scroll", () => {
