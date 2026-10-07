@@ -171,7 +171,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (min-width: 720px) { .album-list { grid-template-columns: repeat(auto-fill, minmax(300px, 420px)); } }
 .album-count { display: block; font-size: .85rem; color: var(--ink-soft); margin-top: .1rem; }
 .back {
-  display: inline-flex; align-items: center; min-height: 44px; padding: .2rem 1.2rem; margin-bottom: 1.2rem;
+  display: inline-flex; align-items: center; justify-content: center; min-height: 34px; padding: .1rem 1rem; margin-bottom: 1.2rem;
   background: transparent; border: 1px solid var(--silver); border-radius: 999px; font-family: var(--serif); color: var(--ink-soft);
 }
 .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; }
@@ -200,6 +200,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border: 1px solid var(--silver); border-radius: 999px; text-decoration: none;
   font-family: var(--serif); font-size: .8rem; color: var(--ink-soft);
 }
+.dl:not([href]) { opacity: .45; cursor: not-allowed; }
 .notice { margin: .5rem 0 0; font-size: .78rem; line-height: 1.5; color: var(--ink-soft); }
 
 /* Dialogs */
@@ -251,6 +252,9 @@ dialog::backdrop { background: rgba(20, 35, 65, .5); backdrop-filter: blur(5px);
 .close::after { content: ""; position: absolute; inset: -7px; }
 .photo-view { position: relative; }
 .photo-view .frame img { aspect-ratio: auto; max-height: 68dvh; object-fit: contain; background: color-mix(in srgb, var(--sky) 15%, transparent); }
+.photo-view .slides { align-items: center; }
+.photo-view .slides .slide img { aspect-ratio: auto; height: auto; max-height: 68dvh; object-fit: contain; border-radius: 16px; background: color-mix(in srgb, var(--sky) 15%, transparent); }
+.nav button:disabled { opacity: .4; cursor: default; }
 .photo-view .caption { text-align: center; margin: 1rem 0 0; }
 .photo-view h2 { font-size: 1.3rem; }
 .photo-view .caption p { margin: .3rem 0 0; font-family: var(--serif); line-height: 1.9; color: var(--ink-soft); }
@@ -311,7 +315,7 @@ main { min-height: 40vh; }
         </div>
         <div class="imgtools" id="imgTools">
           <a class="dl" id="dlBtn" href="#">下載圖片</a>
-          <p class="notice">圖片皆為AI生成，不得作任何商業用途。</p>
+          <p class="notice">圖片皆為AI生成，不得做商業用途。</p>
         </div>
       </div>
       <div class="info" id="dlgInfo">
@@ -339,7 +343,7 @@ main { min-height: 40vh; }
       </div>
       <div class="imgtools" id="ptools">
         <a class="dl" id="pdl" href="#">下載圖片</a>
-        <p class="notice">圖片皆為AI生成，不得作任何商業用途。</p>
+        <p class="notice">圖片皆為AI生成，不得做商業用途。</p>
       </div>
     </div>
     <div class="nav">
@@ -355,7 +359,7 @@ main { min-height: 40vh; }
 /* ============================================================
    在這裡改內容就好。
    新增角色：複製一整個 { ... }，貼在該分類最後一個後面，cat 填分類代號（qq 或 yd）。
-   新增系列照：在 PHOTOS 的 photos 裡加 { image: "", caption: "" }（建議 8 到 11 張）。
+   新增系列照：在 PHOTOS 的 photos 裡加 { image: "", title: "", caption: "" }（建議 8 到 11 張）。
    image：單張圖片路徑；images：多張圖片（點開後可左右滑），例如 images: ["images/a.jpg", "images/b.jpg"]。
    留空會顯示柔色佔位圖。
    links：一個或兩個都可以，每個是 { label: "按鈕文字", url: "網址" }。
@@ -382,19 +386,30 @@ const CATEGORIES = [
 ];
 
 const PHOTOS = {
-  tabLabel: "相簿",
+  tabLabel: "系列相簿",
   intro: "",
   albums: [
-    { title: "相簿", blurb: "", cover: "",
+    { title: "卿卿我我", blurb: "", cover: "",
       photos: [
-        { image: "", caption: "" },
-        { image: "", caption: "" },
-        { image: "", caption: "" },
-        { image: "", caption: "" },
-        { image: "", caption: "" },
-        { image: "", caption: "" },
-        { image: "", caption: "" },
-        { image: "", caption: "" }
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" }
+      ] },
+    { title: "鴨答鴨答", blurb: "", cover: "",
+      photos: [
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" },
+        { image: "", title: "", caption: "" }
       ] }
   ]
 };
@@ -579,11 +594,10 @@ function renderAlbumList() {
   $("view").innerHTML = `
     <div class="page-head"><h2>${esc(PHOTOS.tabLabel)}</h2>${PHOTOS.intro ? `<p>${esc(PHOTOS.intro)}</p>` : ""}</div>
     <ul class="album-list">${PHOTOS.albums.map((a, i) => `
-      <li><button class="card" type="button" data-album="${i}" aria-label="打開 ${esc(a.title)}，共 ${a.photos.length} 張">
+      <li><button class="card" type="button" data-album="${i}" aria-label="打開 ${esc(a.title)} 相簿">
         <span class="frame wide">${imgTag(a.cover || (a.photos[0] && a.photos[0].image), i + 2, a.title)}</span>
         <span class="name">${esc(a.title)}</span>
         ${a.blurb ? `<span class="sub">${esc(a.blurb)}</span>` : ""}
-        <span class="album-count">${a.photos.length} 張照片</span>
       </button></li>`).join("")}</ul>`;
 }
 
@@ -591,7 +605,7 @@ function renderAlbumList() {
 function renderAlbum(i) {
   const a = PHOTOS.albums[i];
   $("view").innerHTML = `
-    <button class="back" type="button" data-back>返回${esc(PHOTOS.tabLabel)}</button>
+    <button class="back" type="button" data-back aria-label="返回${esc(PHOTOS.tabLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div class="page-head"><h2>${esc(a.title)}</h2>${a.blurb ? `<p>${esc(a.blurb)}</p>` : ""}</div>
     <ul class="grid photo-grid">${a.photos.map((p, n) => `
       <li><button class="card" type="button" data-photo="${n}" aria-label="放大第 ${n + 1} 張">
@@ -624,7 +638,7 @@ $("view").addEventListener("click", (e) => {
   if (al) { show("photos", Number(al.dataset.album)); return; }
   if (t.closest("[data-back]")) { show("photos"); return; }
   const ph = t.closest("[data-photo]");
-  if (ph) { fillPhoto(Number(ph.dataset.photo)); pdlg.showModal(); }
+  if (ph) { pdlg.showModal(); fillPhoto(Number(ph.dataset.photo)); }
 });
 
 /* character dialog */
@@ -765,30 +779,55 @@ dlg.addEventListener("keydown", (e) => {
 /* photo lightbox */
 const pdlg = $("pdlg");
 let pCurrent = 0;
-function fillPhoto(n) {
+let pCount = 1, pRaf = 0;
+const pBehavior = () => matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+function setPhoto(n) {
   pCurrent = n;
   const a = PHOTOS.albums[albumIdx];
   const p = a.photos[n];
-  $("pdlgFrame").innerHTML = imgTag(p.image, n, p.caption || a.title + " " + (n + 1));
-  $("pdlgTitle").textContent = a.title;
+  $("pdlgTitle").textContent = p.title || "";
+  $("pdlgTitle").hidden = !p.title;
   $("pdlgCaption").textContent = p.caption || "";
   $("pdlgCaption").hidden = !p.caption;
   $("pCount").textContent = (n + 1) + " / " + a.photos.length;
-  $("ptools").hidden = !p.image;
+  $("ptools").hidden = false;
   if (p.image) { $("pdl").href = p.image; $("pdl").download = a.title + "-" + (n + 1) + "." + extOf(p.image); }
+  else { $("pdl").removeAttribute("href"); $("pdl").removeAttribute("download"); }
+  $("pPrev").disabled = n === 0;
+  $("pNext").disabled = n === pCount - 1;
+}
+function fillPhoto(n) {
+  const a = PHOTOS.albums[albumIdx];
+  pCount = a.photos.length;
+  $("pdlgFrame").innerHTML = `<div class="slides" id="pslides" aria-label="照片，可左右滑動">${a.photos.map((p, k) =>
+    `<div class="slide">${imgTag(p.image, k, p.caption || a.title + " " + (k + 1))}</div>`).join("")}</div>`;
+  const sl = $("pslides");
+  sl.scrollLeft = n * sl.clientWidth;
+  setPhoto(n);
   pdlg.querySelector(".sheet-scroll").scrollTop = 0;
 }
-function pStep(d) {
-  const len = PHOTOS.albums[albumIdx].photos.length;
-  fillPhoto((pCurrent + d + len) % len);
+function goPhoto(n) {
+  const sl = $("pslides");
+  if (!sl) return;
+  const t = Math.min(pCount - 1, Math.max(0, n));
+  sl.scrollTo({ left: t * sl.clientWidth, behavior: pBehavior() });
 }
+$("pdlgFrame").addEventListener("scroll", () => {
+  cancelAnimationFrame(pRaf);
+  pRaf = requestAnimationFrame(() => {
+    const sl = $("pslides");
+    if (!sl) return;
+    const n = Math.round(sl.scrollLeft / (sl.clientWidth || 1));
+    if (n !== pCurrent && n >= 0 && n < pCount) setPhoto(n);
+  });
+}, { passive: true, capture: true });
 $("pdlgClose").addEventListener("click", () => pdlg.close());
-$("pPrev").addEventListener("click", () => pStep(-1));
-$("pNext").addEventListener("click", () => pStep(1));
+$("pPrev").addEventListener("click", () => goPhoto(pCurrent - 1));
+$("pNext").addEventListener("click", () => goPhoto(pCurrent + 1));
 pdlg.addEventListener("click", (e) => { if (e.target === pdlg) pdlg.close(); });
 pdlg.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowLeft") pStep(-1);
-  if (e.key === "ArrowRight") pStep(1);
+  if (e.key === "ArrowLeft") goPhoto(pCurrent - 1);
+  if (e.key === "ArrowRight") goPhoto(pCurrent + 1);
 });
 
 /* theme toggle */
