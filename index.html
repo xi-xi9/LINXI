@@ -127,7 +127,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
-/* Page headings */
+/* Page headings（只剩相簿內頁標題與說明文字用） */
 .page-head { text-align: center; margin-bottom: 1.8rem; }
 .page-head h2 { font-family: var(--serif); font-size: 1.7rem; letter-spacing: .2em; padding-left: .2em; margin: 0 0 .3rem; }
 .page-head p { margin: 0 auto; max-width: 30rem; color: var(--ink-soft); font-family: var(--serif); font-size: .95rem; }
@@ -265,8 +265,23 @@ dialog::backdrop { background: rgba(20, 35, 65, .5); backdrop-filter: blur(5px);
   padding: 2rem 1.5rem; text-align: center; box-shadow: var(--shadow); max-width: 640px; margin: 0 auto;
 }
 .author-card::before { content: ""; position: absolute; inset: 5px; border: 1px solid var(--silver-soft); border-radius: 21px; pointer-events: none; }
-.avatar { width: 92px; height: 92px; margin: 0 auto 1rem; border-radius: 50%; border: 1.5px solid var(--silver); padding: 4px; background: var(--surface); }
-.avatar > * { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.avatar {
+  width: min(240px, 70%);
+  aspect-ratio: 3 / 4;
+  margin: 0 auto 1.2rem;
+  border-radius: 22px;
+  border: 1.5px solid var(--silver);
+  padding: 5px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.avatar > * {
+  width: 100%; height: 100%;
+  border-radius: 17px;
+  object-fit: cover;
+  object-position: 50% 25%;
+  display: block;
+}
 .author-card h3 { font-family: var(--serif); font-size: 1.5rem; margin: 0 0 .4rem; letter-spacing: .12em; }
 .author-card p { margin: 0 auto 1.2rem; max-width: 32rem; font-family: var(--serif); line-height: 1.95; color: var(--ink-soft); }
 .contacts { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; position: relative; }
@@ -568,7 +583,7 @@ $("tabs").addEventListener("click", (e) => {
   show(b.dataset.view);
 });
 
-/* character page */
+/* character page（標題已移除；blurb 有填才會顯示說明文字） */
 function renderCategory(id) {
   const cat = CATEGORIES.find((c) => c.id === id);
   const idxs = CHARACTERS.map((c, i) => i).filter((i) => CHARACTERS[i].cat === id);
@@ -585,14 +600,14 @@ function renderCategory(id) {
       <span class="name">敬請期待</span>
     </div></li>` : "";
   $("view").innerHTML = `
-    <div class="page-head"><h2>${esc(cat.name)}</h2>${cat.blurb ? `<p>${esc(cat.blurb)}</p>` : ""}</div>
+    ${cat.blurb ? `<div class="page-head"><p>${esc(cat.blurb)}</p></div>` : ""}
     <ul class="grid">${cards}${soon}</ul>`;
 }
 
-/* series photos: album list */
+/* series photos: album list（標題已移除；intro 有填才會顯示說明文字） */
 function renderAlbumList() {
   $("view").innerHTML = `
-    <div class="page-head"><h2>${esc(PHOTOS.tabLabel)}</h2>${PHOTOS.intro ? `<p>${esc(PHOTOS.intro)}</p>` : ""}</div>
+    ${PHOTOS.intro ? `<div class="page-head"><p>${esc(PHOTOS.intro)}</p></div>` : ""}
     <ul class="album-list">${PHOTOS.albums.map((a, i) => `
       <li><button class="card" type="button" data-album="${i}" aria-label="打開 ${esc(a.title)} 相簿">
         <span class="frame wide">${imgTag(a.cover || (a.photos[0] && a.photos[0].image), i + 2, a.title)}</span>
@@ -614,10 +629,9 @@ function renderAlbum(i) {
       </button></li>`).join("")}</ul>`;
 }
 
-/* contact page */
+/* contact page（標題已移除） */
 function renderContact() {
   $("view").innerHTML = `
-    <div class="page-head"><h2>聯絡我</h2></div>
     <div class="author-card">
       <div class="avatar">${AUTHOR.avatar
         ? `<img src="${esc(AUTHOR.avatar)}" alt="${esc(AUTHOR.name)}">`
