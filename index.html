@@ -553,7 +553,6 @@ function renderCategory(id) {
   const soon = cat.comingSoon ? `<li><div class="card-static soon">
       <span class="frame"><span class="soon-box">${SPARK}<span>Coming soon</span></span></span>
       <span class="name">敬請期待</span>
-      <span class="sub">更多角色準備中</span>
     </div></li>` : "";
   $("view").innerHTML = `
     <div class="page-head"><h2>${esc(cat.name)}</h2>${cat.blurb ? `<p>${esc(cat.blurb)}</p>` : ""}</div>
