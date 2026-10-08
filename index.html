@@ -627,7 +627,7 @@ function renderAlbum(i) {
     ${a.blurb ? `<div class="page-head"><p>${esc(a.blurb)}</p></div>` : ""}
     <ul class="grid photo-grid">${a.photos.map((p, n) => {
       const imgs = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
-      const inner = `<span class="frame">${imgTag(imgs[0], n, a.title + " " + (n + 1))}</span>
+      const inner = `<span class="frame">${imgTag(p.image || imgs[0], n, a.title + " " + (n + 1))}</span>
         ${p.caption ? `<span class="sub">${esc(p.caption)}</span>` : ""}`;
       return imgs.length
         ? `<li><button class="card" type="button" data-photo="${n}" aria-label="查看第 ${n + 1} 格">${inner}</button></li>`
