@@ -802,7 +802,9 @@ const pdlg = $("pdlg");
 let pCurrent = 0;
 let pCount = 1, pRaf = 0;
 const pBehavior = () => matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
-let pItems = [], pCell = 0;
+let pItems = [], pCell = 0, pLocked = false;
+/* 剛打開時，圖片載入會讓版面變動、瀏覽器可能把捲動位置帶走；載入期間一直固定在第一張，直到你手動滑動或按按鈕 */
+function pinFirst() { const sl = $("pslides"); if (pLocked && sl && sl.scrollLeft !== 0) sl.scrollLeft = 0; }
 function setPhoto(n) {
   pCurrent = n;
   const a = PHOTOS.albums[albumIdx];
@@ -827,11 +829,19 @@ function fillPhoto(cellIdx) {
   pCount = pItems.length;
   $("pdlgFrame").innerHTML = `<div class="slides" id="pslides" aria-label="照片，可左右滑動">${pItems.map((src, k) =>
     `<div class="slide">${imgTag(src, k, a.title + " " + (cellIdx + 1) + "-" + (k + 1))}</div>`).join("")}</div>`;
-  $("pslides").scrollLeft = 0;
+  const sl = $("pslides");
+  pLocked = true;
+  pinFirst();
+  requestAnimationFrame(pinFirst);
+  [100, 300, 800].forEach((ms) => setTimeout(pinFirst, ms));
+  sl.querySelectorAll("img").forEach((im) => { im.addEventListener("load", pinFirst); im.addEventListener("error", pinFirst); });
+  const unlock = () => { pLocked = false; };
+  ["pointerdown", "touchstart", "wheel"].forEach((t) => sl.addEventListener(t, unlock, { once: true, passive: true }));
   setPhoto(0);
   pdlg.querySelector(".sheet-scroll").scrollTop = 0;
 }
 function goPhoto(n) {
+  pLocked = false;
   const sl = $("pslides");
   if (!sl) return;
   const t = Math.min(pCount - 1, Math.max(0, n));
@@ -840,6 +850,7 @@ function goPhoto(n) {
 $("pdlgFrame").addEventListener("scroll", () => {
   cancelAnimationFrame(pRaf);
   pRaf = requestAnimationFrame(() => {
+    if (pLocked) return;
     const sl = $("pslides");
     if (!sl) return;
     const n = Math.round(sl.scrollLeft / (sl.clientWidth || 1));
