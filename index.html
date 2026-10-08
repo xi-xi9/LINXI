@@ -93,7 +93,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   padding-left: .28em;
   line-height: 1.2;
 }
-.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.sr-only, .hero h1.sr-only { position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important; border: 0 !important; }
 .hero { padding-top: 5rem; padding-bottom: 2.4rem; }
 .hero .flourish { margin-bottom: 0; }
 .hero p { margin: 0 auto; max-width: 30rem; color: var(--ink-soft); font-family: var(--serif); line-height: 1.9; }
@@ -226,13 +226,14 @@ dialog::backdrop { background: rgba(20, 35, 65, .5); backdrop-filter: blur(5px);
 .portrait { width: min(300px, 82%); margin-inline: auto; }
 @media (min-width: 720px) { .portrait { width: 100%; } }
 .sheet h2 { font-family: var(--serif); font-size: 1.8rem; margin: 0; letter-spacing: .1em; line-height: 1.3; }
-.sheet .tagline { margin: 1rem 0; color: var(--accent-deep); font-family: var(--serif); font-size: 1.05rem; }
+.sheet .tagline { margin: 0; color: var(--accent-deep); font-family: var(--serif); font-size: .82rem; line-height: 1.6; }
+.sheet .tagline.small { font-size: .74rem; margin-left: -.2rem; }
 .facts { display: grid; grid-template-columns: max-content 1fr; gap: .3rem 1rem; margin: 1.1rem 0; padding: .9rem 0; border-block: 1px solid var(--silver-soft); font-size: .95rem; }
 .facts dt { color: var(--ink-soft); }
 .facts dd { margin: 0; }
 .intro { margin: 0 0 1rem; font-family: var(--serif); line-height: 1.95; }
 .info { touch-action: pan-y; }
-.name-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: .2rem .7rem; }
+.name-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: .1rem .7rem; margin-bottom: .3rem; padding-left: .8rem; }
 .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: .45rem; margin: 1.4rem 0 1.6rem; padding: 0; list-style: none; }
 .tags li { font-size: .82rem; padding: .1rem .7rem; border-radius: 999px; background: color-mix(in srgb, var(--sky) 45%, transparent); color: var(--ink); }
 .links { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
@@ -253,7 +254,7 @@ dialog::backdrop { background: rgba(20, 35, 65, .5); backdrop-filter: blur(5px);
   display: grid; place-items: center; font-size: .9rem; line-height: 1; z-index: 2; background: var(--surface);
 }
 .close::after { content: ""; position: absolute; inset: -7px; }
-.photo-view { position: relative; }
+.photo-view { position: relative; padding-top: 1.5rem; }
 .photo-view .frame img { aspect-ratio: auto; max-height: 68dvh; object-fit: contain; background: color-mix(in srgb, var(--sky) 15%, transparent); }
 .photo-view .slides { align-items: center; }
 .photo-view .slides .slide img { aspect-ratio: auto; height: auto; max-height: 68dvh; object-fit: contain; border-radius: 16px; background: color-mix(in srgb, var(--sky) 15%, transparent); }
@@ -337,8 +338,7 @@ main { min-height: 40vh; }
         </div>
       </div>
       <div class="info" id="dlgInfo">
-        <div class="name-row"><h2 id="dlgName"></h2></div>
-        <p class="tagline" id="dlgSub"></p>
+        <div class="name-row"><h2 id="dlgName"></h2><p class="tagline" id="dlgSub"></p></div>
         <dl class="facts" id="dlgFacts"></dl>
         <p class="intro" id="dlgIntro"></p>
         <ul class="tags" id="dlgTags"></ul>
@@ -477,10 +477,10 @@ const CHARACTERS = [
     links: [{ label: "尚未公開", url: "" }] },
 
   /* ---- 鴨答鴨答（6 位） ---- */
-  { cat: "yd", name: "梁斐川", subtitle: "「被注入情感的東西，都有了被毀滅的資格。」", images: pics("feichuan", 6),
+  { cat: "yd", name: "梁斐川", subtitle: "「注入情感，便有被毀滅的資格。」", subSmall: true, images: pics("feichuan", 6),
     facts: [], intro: "", tags: ["建築師", "創傷", "木訥", "架空民國"],
     links: [{ label: "前往對話", url: "https://caveduck.io/character-info/266b25d8-eaaa-495a-974c-26b280c17c98" }] },
-  { cat: "yd", name: "傅池逸", subtitle: "「那個有點奇怪的海洋館館長。」", images: pics("chiyi", 5),
+  { cat: "yd", name: "傅池逸", subtitle: "「有點奇怪的海洋館館長。」", images: pics("chiyi", 5),
     facts: [], intro: "", tags: ["海洋館館長", "幽默", "純愛"],
     links: [{ label: "前往對話", url: "https://caveduck.io/character-info/01081faf-98b0-4585-86e7-0027aaeb5a5c" }] },
   { cat: "yd", name: "顧恆", subtitle: "「傳說中的燈塔精靈。」", images: pics("guhun", 5),
@@ -624,7 +624,7 @@ function renderAlbum(i) {
   const a = PHOTOS.albums[i];
   $("view").innerHTML = `
     <button class="back" type="button" data-back aria-label="返回${esc(PHOTOS.tabLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <div class="page-head"><h2>${esc(a.title)}</h2>${a.blurb ? `<p>${esc(a.blurb)}</p>` : ""}</div>
+    ${a.blurb ? `<div class="page-head"><p>${esc(a.blurb)}</p></div>` : ""}
     <ul class="grid photo-grid">${a.photos.map((p, n) => `
       <li><button class="card" type="button" data-photo="${n}" aria-label="放大第 ${n + 1} 張">
         <span class="frame">${imgTag(p.image, n, p.caption || a.title + " " + (n + 1))}</span>
@@ -689,6 +689,7 @@ function fill(i) {
   setSlide(0);
   $("dlgName").textContent = c.name;
   $("dlgSub").textContent = c.subtitle || "";
+  $("dlgSub").classList.toggle("small", !!c.subSmall);
   $("dlgFacts").innerHTML = (c.facts || []).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("");
   $("dlgFacts").hidden = !(c.facts && c.facts.length);
   $("dlgIntro").textContent = c.intro || "";
