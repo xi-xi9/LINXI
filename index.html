@@ -409,14 +409,14 @@ const PHOTOS = {
   albums: [
     { title: "卿卿我我", blurb: "", cover: "album/album%20(1).jpg",
       photos: [
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" }
+        { image: "hand/hand%20(1).jpg", title: "", caption: "" },
+        { image: "hand/hand%20(2).jpg", title: "", caption: "" },
+        { image: "hand/hand%20(3).jpg", title: "", caption: "" },
+        { image: "hand/hand%20(4).jpg", title: "", caption: "" },
+        { image: "hand/hand%20(5).jpg", title: "", caption: "" },
+        { image: "hand/hand%20(6).jpg", title: "", caption: "" },
+        { image: "hand/hand%20(7).jpg", title: "", caption: "" },
+        { image: "hand/hand%20(8).jpg", title: "", caption: "" }
       ] },
     { title: "鴨答鴨答", blurb: "", cover: "album/album%20(2).jpg",
       photos: [
@@ -655,7 +655,7 @@ $("view").addEventListener("click", (e) => {
   if (al) { show("photos", Number(al.dataset.album)); return; }
   if (t.closest("[data-back]")) { show("photos"); return; }
   const ph = t.closest("[data-photo]");
-  if (ph) { pdlg.showModal(); fillPhoto(Number(ph.dataset.photo)); }
+  if (ph) { pdlg.showModal(); fillPhoto(0); }  /* 點哪張都從第一張開始；想改回點哪張看哪張，把 0 換成 Number(ph.dataset.photo) */
 });
 
 /* character dialog */
