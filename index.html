@@ -410,10 +410,10 @@ const PHOTOS = {
     { title: "卿卿我我", blurb: "", cover: "album/album%20(1).jpg",
       photos: [
         { image: "hand/hand%20(1).jpg", images: ["hand/hand%20(1).jpg", "hand/hand%20(2).jpg", "hand/hand%20(3).jpg", "hand/hand%20(4).jpg", "hand/hand%20(5).jpg", "hand/hand%20(6).jpg", "hand/hand%20(7).jpg", "hand/hand%20(8).jpg", "hand/hand%20(9).jpg"], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
+        { image: "flower/flower%20(2).jpg", images: ["flower/flower%20(1).jpg", "flower/flower%20(2).jpg", "flower/flower%20(3).jpg", "flower/flower%20(4).jpg", "flower/flower%20(5).jpg", "flower/flower%20(6).jpg", "flower/flower%20(7).jpg", "flower/flower%20(8).jpg", "flower/flower%20(9).jpg"], title: "", caption: "" },
+        { image: "lumina/lumina%20(3).jpg", images: ["lumina/lumina%20(1).jpg", "lumina/lumina%20(2).jpg", "lumina/lumina%20(3).jpg", "lumina/lumina%20(4).jpg", "lumina/lumina%20(5).jpg", "lumina/lumina%20(6).jpg", "lumina/lumina%20(7).jpg", "lumina/lumina%20(8).jpg", "lumina/lumina%20(9).jpg"], title: "", caption: "" },
+        { image: "firework/firework%20(4).jpg", images: ["firework/firework%20(1).jpg", "firework/firework%20(2).jpg", "firework/firework%20(3).jpg", "firework/firework%20(4).jpg", "firework/firework%20(5).jpg", "firework/firework%20(6).jpg", "firework/firework%20(7).jpg", "firework/firework%20(8).jpg", "firework/firework%20(9).jpg"], title: "", caption: "" },
+        { image: "birth/birth%20(5).jpg", images: ["birth/birth%20(1).jpg", "birth/birth%20(2).jpg", "birth/birth%20(3).jpg", "birth/birth%20(4).jpg", "birth/birth%20(5).jpg", "birth/birth%20(6).jpg", "birth/birth%20(7).jpg", "birth/birth%20(8).jpg", "birth/birth%20(9).jpg"], title: "", caption: "" },
         { image: "", images: [], title: "", caption: "" },
         { image: "", images: [], title: "", caption: "" },
         { image: "", images: [], title: "", caption: "" }
@@ -664,7 +664,9 @@ $("view").addEventListener("click", (e) => {
 /* character dialog */
 const dlg = $("dlg");
 let current = 0;
-let slideCount = 1, slideNow = 0, rafId = 0;
+let slideCount = 1, slideNow = 0, rafId = 0, cLocked = false;
+/* 剛打開角色卡時，圖片載入會讓版面變動、瀏覽器可能把捲動位置帶走；載入期間固定在第一張，直到你手動滑動或按按鈕 */
+function pinChar() { const sl = $("slides"); if (cLocked && sl && sl.scrollLeft !== 0) sl.scrollLeft = 0; }
 function setSlide(n) {
   slideNow = n;
   [...$("dots").children].forEach((d, k) => d.setAttribute("aria-current", String(k === n)));
@@ -673,6 +675,7 @@ function setSlide(n) {
   if (src) { const dl = $("dlBtn"); dl.href = src; dl.download = c.name + "-" + (n + 1) + "." + extOf(src); }
 }
 function goSlide(n) {
+  cLocked = false;
   const sl = $("slides");
   sl.scrollTo({ left: n * sl.clientWidth, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
 }
@@ -684,7 +687,13 @@ function fill(i) {
   const multi = list.length > 1;
   $("slides").innerHTML = list.map((src, n) =>
     `<div class="slide">${imgTag(src, i + n, c.name + (multi ? " " + (n + 1) : ""))}</div>`).join("");
-  $("slides").scrollLeft = 0;
+  const csl = $("slides");
+  cLocked = true;
+  csl.scrollLeft = 0;
+  requestAnimationFrame(pinChar);
+  [100, 300, 800].forEach((ms) => setTimeout(pinChar, ms));
+  csl.querySelectorAll("img").forEach((im) => { im.addEventListener("load", pinChar); im.addEventListener("error", pinChar); });
+  ["pointerdown", "touchstart", "wheel"].forEach((t) => csl.addEventListener(t, () => { cLocked = false; }, { once: true, passive: true }));
   $("dots").innerHTML = multi ? list.map((_, n) => `<button type="button" class="dot" data-s="${n}" aria-label="第 ${n + 1} 張"></button>`).join("") : "";
   $("pager").hidden = !multi;
   $("imgTools").hidden = !imgs.length;
@@ -706,6 +715,7 @@ function fill(i) {
 $("slides").addEventListener("scroll", () => {
   cancelAnimationFrame(rafId);
   rafId = requestAnimationFrame(() => {
+    if (cLocked) return;
     const sl = $("slides");
     const n = Math.round(sl.scrollLeft / (sl.clientWidth || 1));
     if (n !== slideNow && n >= 0 && n < slideCount) setSlide(n);
