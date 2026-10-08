@@ -177,6 +177,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
   display: inline-flex; align-items: center; justify-content: center; min-height: 34px; padding: .1rem 1rem; margin-bottom: 1.2rem;
   background: transparent; border: 1px solid var(--silver); border-radius: 999px; font-family: var(--serif); color: var(--ink-soft);
 }
+.back-row { display: flex; align-items: center; gap: .7rem; margin-bottom: 1.2rem; }
+.back-row .back { margin-bottom: 0; }
+.back-hint { font-family: var(--serif); font-size: .78rem; color: var(--ink-soft); }
 .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; }
 @media (min-width: 720px) { .photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.6rem; } }
 @media (min-width: 980px) { .photo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -623,7 +626,7 @@ function renderAlbumList() {
 function renderAlbum(i) {
   const a = PHOTOS.albums[i];
   $("view").innerHTML = `
-    <button class="back" type="button" data-back aria-label="返回${esc(PHOTOS.tabLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="back-row"><button class="back" type="button" data-back aria-label="返回${esc(PHOTOS.tabLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="back-hint">請點擊圖片進入相冊</span></div>
     ${a.blurb ? `<div class="page-head"><p>${esc(a.blurb)}</p></div>` : ""}
     <ul class="grid photo-grid">${a.photos.map((p, n) => {
       const imgs = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
