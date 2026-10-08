@@ -377,7 +377,7 @@ main { min-height: 40vh; }
 /* ============================================================
    在這裡改內容就好。
    新增角色：複製一整個 { ... }，貼在該分類最後一個後面，cat 填分類代號（qq 或 yd）。
-   新增系列照：在 PHOTOS 的 photos 裡加 { image: "", title: "", caption: "" }（建議 8 到 11 張）。
+   新增系列格子：在 PHOTOS 相簿的 photos 裡加 { image: "封面圖", images: ["圖1", "圖2", ...], title: "", caption: "" }；images 留空就是留白格（點了不會開）。
    image：單張圖片路徑；images：多張圖片（點開後可左右滑），例如 images: ["images/a.jpg", "images/b.jpg"]。
    留空會顯示柔色佔位圖。
    links：一個或兩個都可以，每個是 { label: "按鈕文字", url: "網址" }。
@@ -409,92 +409,25 @@ const PHOTOS = {
   albums: [
     { title: "卿卿我我", blurb: "", cover: "album/album%20(1).jpg",
       photos: [
-        { image: "hand/hand%20(1).jpg", title: "", caption: "" },
-        { image: "hand/hand%20(2).jpg", title: "", caption: "" },
-        { image: "hand/hand%20(3).jpg", title: "", caption: "" },
-        { image: "hand/hand%20(4).jpg", title: "", caption: "" },
-        { image: "hand/hand%20(5).jpg", title: "", caption: "" },
-        { image: "hand/hand%20(6).jpg", title: "", caption: "" },
-        { image: "hand/hand%20(7).jpg", title: "", caption: "" },
-        { image: "hand/hand%20(8).jpg", title: "", caption: "" },
-        { image: "hand/hand%20(9).jpg", title: "", caption: "" }
+        { image: "hand/hand%20(1).jpg", images: ["hand/hand%20(1).jpg", "hand/hand%20(2).jpg", "hand/hand%20(3).jpg", "hand/hand%20(4).jpg", "hand/hand%20(5).jpg", "hand/hand%20(6).jpg", "hand/hand%20(7).jpg", "hand/hand%20(8).jpg", "hand/hand%20(9).jpg"], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" }
       ] },
     { title: "鴨答鴨答", blurb: "", cover: "album/album%20(2).jpg",
       photos: [
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" }
-      ] },
-    { title: "相簿 3", blurb: "", cover: "album/album%20(3).jpg",
-      photos: [
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" }
-      ] },
-    { title: "相簿 4", blurb: "", cover: "album/album%20(4).jpg",
-      photos: [
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" }
-      ] },
-    { title: "相簿 5", blurb: "", cover: "album/album%20(5).jpg",
-      photos: [
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" }
-      ] },
-    { title: "相簿 6", blurb: "", cover: "album/album%20(6).jpg",
-      photos: [
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" }
-      ] },
-    { title: "相簿 7", blurb: "", cover: "album/album%20(7).jpg",
-      photos: [
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" }
-      ] },
-    { title: "相簿 8", blurb: "", cover: "album/album%20(8).jpg",
-      photos: [
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" },
-        { image: "", title: "", caption: "" }
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" },
+        { image: "", images: [], title: "", caption: "" }
       ] }
   ]
 };
@@ -692,11 +625,14 @@ function renderAlbum(i) {
   $("view").innerHTML = `
     <button class="back" type="button" data-back aria-label="返回${esc(PHOTOS.tabLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     ${a.blurb ? `<div class="page-head"><p>${esc(a.blurb)}</p></div>` : ""}
-    <ul class="grid photo-grid">${a.photos.map((p, n) => `
-      <li><button class="card" type="button" data-photo="${n}" aria-label="放大第 ${n + 1} 張">
-        <span class="frame">${imgTag(p.image, n, p.caption || a.title + " " + (n + 1))}</span>
-        ${p.caption ? `<span class="sub">${esc(p.caption)}</span>` : ""}
-      </button></li>`).join("")}</ul>`;
+    <ul class="grid photo-grid">${a.photos.map((p, n) => {
+      const imgs = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
+      const inner = `<span class="frame">${imgTag(imgs[0], n, a.title + " " + (n + 1))}</span>
+        ${p.caption ? `<span class="sub">${esc(p.caption)}</span>` : ""}`;
+      return imgs.length
+        ? `<li><button class="card" type="button" data-photo="${n}" aria-label="查看第 ${n + 1} 格">${inner}</button></li>`
+        : `<li><div class="card-static">${inner}</div></li>`;
+    }).join("")}</ul>`;
 }
 
 /* contact page（標題已移除） */
@@ -722,7 +658,7 @@ $("view").addEventListener("click", (e) => {
   if (al) { show("photos", Number(al.dataset.album)); return; }
   if (t.closest("[data-back]")) { show("photos"); return; }
   const ph = t.closest("[data-photo]");
-  if (ph) { pdlg.showModal(); fillPhoto(0); }  /* 點哪張都從第一張開始；想改回點哪張看哪張，把 0 換成 Number(ph.dataset.photo) */
+  if (ph) { pdlg.showModal(); fillPhoto(Number(ph.dataset.photo)); }  /* 點進去都從該格的第一張開始 */
 });
 
 /* character dialog */
@@ -866,29 +802,33 @@ const pdlg = $("pdlg");
 let pCurrent = 0;
 let pCount = 1, pRaf = 0;
 const pBehavior = () => matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+let pItems = [], pCell = 0;
 function setPhoto(n) {
   pCurrent = n;
   const a = PHOTOS.albums[albumIdx];
-  const p = a.photos[n];
-  $("pdlgTitle").textContent = p.title || "";
-  $("pdlgTitle").hidden = !p.title;
-  $("pdlgCaption").textContent = p.caption || "";
-  $("pdlgCaption").hidden = !p.caption;
-  $("pCount").textContent = (n + 1) + " / " + a.photos.length;
+  const cell = a.photos[pCell];
+  $("pdlgTitle").textContent = cell.title || "";
+  $("pdlgTitle").hidden = !cell.title;
+  $("pdlgCaption").textContent = cell.caption || "";
+  $("pdlgCaption").hidden = !cell.caption;
+  $("pCount").textContent = (n + 1) + " / " + pItems.length;
   $("ptools").hidden = false;
-  if (p.image) { $("pdl").href = p.image; $("pdl").download = a.title + "-" + (n + 1) + "." + extOf(p.image); }
+  const src = pItems[n];
+  if (src) { $("pdl").href = src; $("pdl").download = a.title + "-" + (pCell + 1) + "-" + (n + 1) + "." + extOf(src); }
   else { $("pdl").removeAttribute("href"); $("pdl").removeAttribute("download"); }
   $("pPrev").disabled = n === 0;
   $("pNext").disabled = n === pCount - 1;
 }
-function fillPhoto(n) {
+function fillPhoto(cellIdx) {
   const a = PHOTOS.albums[albumIdx];
-  pCount = a.photos.length;
-  $("pdlgFrame").innerHTML = `<div class="slides" id="pslides" aria-label="照片，可左右滑動">${a.photos.map((p, k) =>
-    `<div class="slide">${imgTag(p.image, k, p.caption || a.title + " " + (k + 1))}</div>`).join("")}</div>`;
-  const sl = $("pslides");
-  sl.scrollLeft = n * sl.clientWidth;
-  setPhoto(n);
+  const cell = a.photos[cellIdx];
+  pCell = cellIdx;
+  pItems = cell.images && cell.images.length ? cell.images : (cell.image ? [cell.image] : []);
+  pCount = pItems.length;
+  $("pdlgFrame").innerHTML = `<div class="slides" id="pslides" aria-label="照片，可左右滑動">${pItems.map((src, k) =>
+    `<div class="slide">${imgTag(src, k, a.title + " " + (cellIdx + 1) + "-" + (k + 1))}</div>`).join("")}</div>`;
+  $("pslides").scrollLeft = 0;
+  setPhoto(0);
   pdlg.querySelector(".sheet-scroll").scrollTop = 0;
 }
 function goPhoto(n) {
