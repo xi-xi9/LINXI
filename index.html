@@ -381,7 +381,7 @@ main { min-height: 40vh; }
    在這裡改內容就好。
    新增角色：複製一整個 { ... }，貼在該分類最後一個後面，cat 填分類代號（qq 或 yd）。
    新增系列格子：在 PHOTOS 相簿的 photos 裡加 { image: "封面圖", images: ["圖1", "圖2", ...], title: "", caption: "" }；images 留空就是留白格（點了不會開）。
-   image：單張圖片路徑；images：多張圖片（點開後可左右滑），例如 images: ["images/a.jpg", "images/b.jpg"]。
+   image：單張圖片路徑；images：多張圖片（點開後可左右滑），例如 images: ["images/a.webp", "images/b.webp"]。
    留空會顯示柔色佔位圖。
    links：一個或兩個都可以，每個是 { label: "按鈕文字", url: "網址" }。
    Coming soon 框框會自動排在每個分類的最後面；不要的話把 comingSoon 改成 false。
@@ -393,7 +393,7 @@ const SITE = {
 
 const AUTHOR = {
   name: "林汐",               /* 「聯絡我」頁面顯示的名字 */
-  avatar: "",
+  avatar: "me.webp",
   bio: "在各自的時間線幸福吧。",
   contacts: [
     { label: "Threads", url: "https://www.threads.com/@lin_xi._?igshid=NTc4MTIwNjQ2YQ==" },
@@ -410,18 +410,18 @@ const PHOTOS = {
   tabLabel: "系列相簿",
   intro: "",
   albums: [
-    { title: "卿卿我我", blurb: "", cover: "album/album%20(1).jpg",
+    { title: "卿卿我我", blurb: "", cover: "album/album%20(1).webp",
       photos: [
-        { image: "hand/hand%20(1).jpg", images: ["hand/hand%20(1).jpg", "hand/hand%20(2).jpg", "hand/hand%20(3).jpg", "hand/hand%20(4).jpg", "hand/hand%20(5).jpg", "hand/hand%20(6).jpg", "hand/hand%20(7).jpg", "hand/hand%20(8).jpg", "hand/hand%20(9).jpg"], title: "", caption: "" },
-        { image: "flower/flower%20(2).jpg", images: ["flower/flower%20(1).jpg", "flower/flower%20(2).jpg", "flower/flower%20(3).jpg", "flower/flower%20(4).jpg", "flower/flower%20(5).jpg", "flower/flower%20(6).jpg", "flower/flower%20(7).jpg", "flower/flower%20(8).jpg", "flower/flower%20(9).jpg"], title: "", caption: "" },
-        { image: "lumina/lumina%20(3).jpg", images: ["lumina/lumina%20(1).jpg", "lumina/lumina%20(2).jpg", "lumina/lumina%20(3).jpg", "lumina/lumina%20(4).jpg", "lumina/lumina%20(5).jpg", "lumina/lumina%20(6).jpg", "lumina/lumina%20(7).jpg", "lumina/lumina%20(8).jpg", "lumina/lumina%20(9).jpg"], title: "", caption: "" },
-        { image: "firework/firework%20(4).jpg", images: ["firework/firework%20(1).jpg", "firework/firework%20(2).jpg", "firework/firework%20(3).jpg", "firework/firework%20(4).jpg", "firework/firework%20(5).jpg", "firework/firework%20(6).jpg", "firework/firework%20(7).jpg", "firework/firework%20(8).jpg", "firework/firework%20(9).jpg"], title: "", caption: "" },
-        { image: "birth/birth%20(5).jpg", images: ["birth/birth%20(1).jpg", "birth/birth%20(2).jpg", "birth/birth%20(3).jpg", "birth/birth%20(4).jpg", "birth/birth%20(5).jpg", "birth/birth%20(6).jpg", "birth/birth%20(7).jpg", "birth/birth%20(8).jpg", "birth/birth%20(9).jpg"], title: "", caption: "" },
+        { image: "hand/hand%20(1).webp", images: ["hand/hand%20(1).webp", "hand/hand%20(2).webp", "hand/hand%20(3).webp", "hand/hand%20(4).webp", "hand/hand%20(5).webp", "hand/hand%20(6).webp", "hand/hand%20(7).webp", "hand/hand%20(8).webp", "hand/hand%20(9).webp"], title: "", caption: "" },
+        { image: "flower/flower%20(2).webp", images: ["flower/flower%20(1).webp", "flower/flower%20(2).webp", "flower/flower%20(3).webp", "flower/flower%20(4).webp", "flower/flower%20(5).webp", "flower/flower%20(6).webp", "flower/flower%20(7).webp", "flower/flower%20(8).webp", "flower/flower%20(9).webp"], title: "", caption: "" },
+        { image: "lumina/lumina%20(3).webp", images: ["lumina/lumina%20(1).webp", "lumina/lumina%20(2).webp", "lumina/lumina%20(3).webp", "lumina/lumina%20(4).webp", "lumina/lumina%20(5).webp", "lumina/lumina%20(6).webp", "lumina/lumina%20(7).webp", "lumina/lumina%20(8).webp", "lumina/lumina%20(9).webp"], title: "", caption: "" },
+        { image: "firework/firework%20(4).webp", images: ["firework/firework%20(1).webp", "firework/firework%20(2).webp", "firework/firework%20(3).webp", "firework/firework%20(4).webp", "firework/firework%20(5).webp", "firework/firework%20(6).webp", "firework/firework%20(7).webp", "firework/firework%20(8).webp", "firework/firework%20(9).webp"], title: "", caption: "" },
+        { image: "birth/birth%20(5).webp", images: ["birth/birth%20(1).webp", "birth/birth%20(2).webp", "birth/birth%20(3).webp", "birth/birth%20(4).webp", "birth/birth%20(5).webp", "birth/birth%20(6).webp", "birth/birth%20(7).webp", "birth/birth%20(8).webp", "birth/birth%20(9).webp"], title: "", caption: "" },
         { image: "", images: [], title: "", caption: "" },
         { image: "", images: [], title: "", caption: "" },
         { image: "", images: [], title: "", caption: "" }
       ] },
-    { title: "鴨答鴨答", blurb: "", cover: "album/album%20(2).jpg",
+    { title: "鴨答鴨答", blurb: "", cover: "album/album%20(2).webp",
       photos: [
         { image: "", images: [], title: "", caption: "" },
         { image: "", images: [], title: "", caption: "" },
@@ -435,8 +435,8 @@ const PHOTOS = {
   ]
 };
 
-/* 小工具：pics("shenqian", 7) → shenqian/shenqian%20(1).jpg … (7).jpg */
-const pics = (f, n) => Array.from({ length: n }, (_, i) => `${f}/${f}%20(${i + 1}).jpg`);
+/* 小工具：pics("shenqian", 7) → shenqian/shenqian%20(1).webp … (7).webp */
+const pics = (f, n) => Array.from({ length: n }, (_, i) => `${f}/${f}%20(${i + 1}).webp`);
 
 /* 同時在卿卿我我和鴨答鴨答的角色：共用一份資料，連結各自填 */
 const JIYU = {
@@ -521,20 +521,43 @@ async function toBlob(href) {
   }
   return (await fetch(href)).blob();
 }
-/* 一般網站（例如 GitHub Pages）：下載連結直接運作。預覽環境：改用平台的儲存視窗。 */
+/* 下載：圖片是 webp，點「下載圖片」時在手機上轉成 JPG 再存（畫質 95%）；轉不成會退回下載原本的 webp。 */
+async function toJpgBlob(href) {
+  const img = new Image();
+  img.src = href;
+  await img.decode();
+  const c = document.createElement("canvas");
+  c.width = img.naturalWidth; c.height = img.naturalHeight;
+  const g = c.getContext("2d");
+  g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height);
+  g.drawImage(img, 0, 0);
+  return new Promise((res, rej) => c.toBlob((b) => b ? res(b) : rej(new Error("toBlob failed")), "image/jpeg", 0.95));
+}
 document.addEventListener("click", async (e) => {
   const a = e.target.closest("a.dl");
   if (!a) return;
-  if (!window.claude || typeof window.claude.use !== "function") return;
+  const raw = a.getAttribute("href") || "";
+  if (!raw || raw === "#") { e.preventDefault(); return; }
+  const isWebp = /\.webp(?:\?|#|$)/i.test(raw);
+  const hasClaude = window.claude && typeof window.claude.use === "function";
+  if (!isWebp && !hasClaude) return;
   e.preventDefault();
-  try {
-    const dl = await window.claude.use("downloads");
-    if (dl) { await dl.save({ filename: a.download, data: await toBlob(a.href) }); return; }
-  } catch (err) {
-    if (err && (err.code === "declined" || err.code === "rate_limited")) return;
+  let blob = null, name = a.download || "image";
+  if (isWebp) {
+    try { blob = await toJpgBlob(a.href); name = name.replace(/\.webp$/i, ".jpg"); } catch (_) { blob = null; }
   }
+  if (hasClaude) {
+    try {
+      const dl = await window.claude.use("downloads");
+      if (dl) { await dl.save({ filename: name, data: blob || await toBlob(a.href) }); return; }
+    } catch (err) {
+      if (err && (err.code === "declined" || err.code === "rate_limited")) return;
+    }
+  }
+  const url = blob ? URL.createObjectURL(blob) : a.href;
   const t = document.createElement("a");
-  t.href = a.href; t.download = a.download; document.body.appendChild(t); t.click(); t.remove();
+  t.href = url; t.download = name; document.body.appendChild(t); t.click(); t.remove();
+  if (blob) setTimeout(() => URL.revokeObjectURL(url), 10000);
 });
 
 const PALETTES = [
