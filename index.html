@@ -380,7 +380,7 @@ main { min-height: 40vh; }
 /* ============================================================
    在這裡改內容就好。
    新增角色：複製一整個 { ... }，貼在該分類最後一個後面，cat 填分類代號（qq 或 yd）。
-   新增系列格子：在 PHOTOS 相簿的 photos 裡加 { image: "封面圖", images: ["圖1", "圖2", ...], title: "", caption: "" }；images 留空就是留白格（點了不會開）。
+   新增系列格子：在 PHOTOS 相簿的 photos 裡加 { image: "封面圖", images: ["圖1", "圖2", ...], title: "", caption: "" }；images 留空就是留白格（點了不會開）；加上 soon: true 會變成「Coming soon」格；加上 locked: true 也會點不進去（想開放時把它刪掉）。
    image：單張圖片路徑；images：多張圖片（點開後可左右滑），例如 images: ["images/a.webp", "images/b.webp"]。
    留空會顯示柔色佔位圖。
    links：一個或兩個都可以，每個是 { label: "按鈕文字", url: "網址" }。
@@ -412,25 +412,25 @@ const PHOTOS = {
   albums: [
     { title: "卿卿我我", blurb: "", cover: "album/album%20(1).webp",
       photos: [
-        { image: "handkiss/handkiss.webp", images: ["handkiss/handkiss%20(1).webp", "handkiss/handkiss%20(2).webp", "handkiss/handkiss%20(3).webp", "handkiss/handkiss%20(4).webp", "handkiss/handkiss%20(5).webp", "handkiss/handkiss%20(6).webp", "handkiss/handkiss%20(7).webp", "handkiss/handkiss%20(8).webp", "handkiss/handkiss%20(9).webp"], title: "", caption: "" },
+        { image: "handkiss/handkiss.webp", images: ["handkiss/handkiss%20(1).webp", "handkiss/handkiss%20(2).webp", "handkiss/handkiss%20(3).webp", "handkiss/handkiss%20(4).webp", "handkiss/handkiss%20(5).webp", "handkiss/handkiss%20(6).webp", "handkiss/handkiss%20(7).webp", "handkiss/handkiss%20(8).webp", "handkiss/handkiss%20(9).webp"], title: "", caption: "Hand Kissing" },
         { image: "flower/flower.webp", images: ["flower/flower%20(1).webp", "flower/flower%20(2).webp", "flower/flower%20(3).webp", "flower/flower%20(4).webp", "flower/flower%20(5).webp", "flower/flower%20(6).webp", "flower/flower%20(7).webp", "flower/flower%20(8).webp", "flower/flower%20(9).webp"], title: "", caption: "" },
         { image: "lumina/lumina.webp", images: ["lumina/lumina%20(1).webp", "lumina/lumina%20(2).webp", "lumina/lumina%20(3).webp", "lumina/lumina%20(4).webp", "lumina/lumina%20(5).webp", "lumina/lumina%20(6).webp", "lumina/lumina%20(7).webp", "lumina/lumina%20(8).webp", "lumina/lumina%20(9).webp"], title: "", caption: "" },
         { image: "firework/firework.webp", images: ["firework/firework%20(1).webp", "firework/firework%20(2).webp", "firework/firework%20(3).webp", "firework/firework%20(4).webp", "firework/firework%20(5).webp", "firework/firework%20(6).webp", "firework/firework%20(7).webp", "firework/firework%20(8).webp", "firework/firework%20(9).webp"], title: "", caption: "" },
         { image: "birth/birth.webp", images: ["birth/birth%20(1).webp", "birth/birth%20(2).webp", "birth/birth%20(3).webp", "birth/birth%20(4).webp", "birth/birth%20(5).webp", "birth/birth%20(6).webp", "birth/birth%20(7).webp", "birth/birth%20(8).webp", "birth/birth%20(9).webp"], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" }
+        { image: "summer/summer.webp", images: ["summer/summer%20(1).webp", "summer/summer%20(2).webp", "summer/summer%20(3).webp", "summer/summer%20(4).webp", "summer/summer%20(5).webp", "summer/summer%20(6).webp"], title: "", caption: "" },
+        { image: "handdraw/handdraw.webp", images: ["handdraw/handdraw%20(1).webp", "handdraw/handdraw%20(2).webp", "handdraw/handdraw%20(3).webp", "handdraw/handdraw%20(4).webp", "handdraw/handdraw%20(5).webp", "handdraw/handdraw%20(6).webp", "handdraw/handdraw%20(7).webp", "handdraw/handdraw%20(8).webp"], title: "", caption: "" },
+        { image: "mag/mag.webp", images: ["mag/mag%20(1).webp", "mag/mag%20(2).webp", "mag/mag%20(3).webp", "mag/mag%20(4).webp", "mag/mag%20(5).webp", "mag/mag%20(6).webp", "mag/mag%20(7).webp", "mag/mag%20(8).webp", "mag/mag%20(9).webp"], title: "", caption: "" },
+        { image: "sunglass/sunglass.webp", images: ["sunglass/sunglass%20(1).webp", "sunglass/sunglass%20(2).webp", "sunglass/sunglass%20(3).webp", "sunglass/sunglass%20(4).webp", "sunglass/sunglass%20(5).webp", "sunglass/sunglass%20(6).webp", "sunglass/sunglass%20(7).webp", "sunglass/sunglass%20(8).webp"], title: "", caption: "" },
+        { image: "teacher/teacher.webp", images: ["teacher/teacher%20(1).webp", "teacher/teacher%20(2).webp", "teacher/teacher%20(3).webp", "teacher/teacher%20(4).webp", "teacher/teacher%20(5).webp", "teacher/teacher%20(6).webp", "teacher/teacher%20(7).webp", "teacher/teacher%20(8).webp"], title: "", caption: "" },
+        { image: "sleep/sleep.webp", images: ["sleep/sleep%20(1).webp", "sleep/sleep%20(2).webp", "sleep/sleep%20(3).webp", "sleep/sleep%20(4).webp", "sleep/sleep%20(5).webp", "sleep/sleep%20(6).webp", "sleep/sleep%20(7).webp", "sleep/sleep%20(8).webp", "sleep/sleep%20(9).webp"], title: "", caption: "" },
+        { image: "rabbit/rabbit.webp", images: ["rabbit/rabbit%20(1).webp", "rabbit/rabbit%20(2).webp", "rabbit/rabbit%20(3).webp", "rabbit/rabbit%20(4).webp", "rabbit/rabbit%20(5).webp", "rabbit/rabbit%20(6).webp", "rabbit/rabbit%20(7).webp", "rabbit/rabbit%20(8).webp", "rabbit/rabbit%20(9).webp"], title: "", caption: "", locked: true },
+        { soon: true }
       ] },
     { title: "鴨答鴨答", blurb: "", cover: "album/album%20(2).webp",
       photos: [
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" },
-        { image: "", images: [], title: "", caption: "" }
+        { image: "ydflower/ydflower.webp", images: ["ydflower/ydflower%20(1).webp", "ydflower/ydflower%20(2).webp", "ydflower/ydflower%20(3).webp"], title: "", caption: "" },
+        { image: "ydfirework/ydfirework.webp", images: ["ydfirework/ydfirework%20(1).webp", "ydfirework/ydfirework%20(2).webp", "ydfirework/ydfirework%20(3).webp"], title: "", caption: "" },
+        { soon: true }
       ] }
   ]
 };
@@ -652,10 +652,11 @@ function renderAlbum(i) {
     <div class="back-row"><button class="back" type="button" data-back aria-label="返回${esc(PHOTOS.tabLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="back-hint">請點擊圖片進入相冊</span></div>
     ${a.blurb ? `<div class="page-head"><p>${esc(a.blurb)}</p></div>` : ""}
     <ul class="grid photo-grid">${a.photos.map((p, n) => {
+      if (p.soon) return `<li><div class="card-static soon"><span class="frame"><span class="soon-box">${SPARK}<span>Coming soon</span></span></span>${p.caption ? `<span class="sub">${esc(p.caption)}</span>` : ""}</div></li>`;
       const imgs = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
       const inner = `<span class="frame">${imgTag(p.image || imgs[0], n, a.title + " " + (n + 1))}</span>
         ${p.caption ? `<span class="sub">${esc(p.caption)}</span>` : ""}`;
-      return imgs.length
+      return imgs.length && !p.locked
         ? `<li><button class="card" type="button" data-photo="${n}" aria-label="查看第 ${n + 1} 格">${inner}</button></li>`
         : `<li><div class="card-static">${inner}</div></li>`;
     }).join("")}</ul>`;
