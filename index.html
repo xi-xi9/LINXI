@@ -284,6 +284,7 @@ dialog::backdrop { background: rgba(20, 35, 65, .5); backdrop-filter: blur(5px);
 .flip .front { pointer-events: auto; }
 .flip.on .front { pointer-events: none; }
 .flip .back {
+  margin: 0; /* 修正：避免吃到上面 .back（返回按鈕）的 margin-bottom，造成底部空隙 */
   transform: rotateY(180deg); pointer-events: none; min-height: 17rem; position: relative; overflow: hidden;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; padding: 1.6rem 1rem; text-align: center;
   background: linear-gradient(160deg, var(--c1), var(--c2)); color: var(--cink);
@@ -407,7 +408,7 @@ main { min-height: 40vh; }
         <p id="pdlgCaption"></p>
       </div>
       <div class="imgtools" id="ptools">
-        <p class="notice hint" id="pHint" hidden>輕點照片，與他相遇(ゝ∀･)</p>
+        <p class="notice hint" id="pHint" hidden>輕點圖片 與他相遇</p>
         <a class="dl" id="pdl" href="#">下載圖片</a>
         <p class="notice">圖片皆為AI生成，不得做商業用途。</p>
       </div>
