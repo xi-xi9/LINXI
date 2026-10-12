@@ -276,6 +276,40 @@ dialog::backdrop { background: rgba(20, 35, 65, .5); backdrop-filter: blur(5px);
 .photo-view h2 { font-size: 1.3rem; }
 .photo-view .caption p { margin: .3rem 0 0; font-family: var(--serif); line-height: 1.9; color: var(--ink-soft); }
 
+/* Photo flip（點照片翻面看是誰） */
+.photo-view .slide { perspective: 2000px; }
+.flip { display: grid; position: relative; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4, .2, .2, 1); cursor: pointer; -webkit-tap-highlight-color: transparent; border-radius: 16px; }
+.flip.on { transform: rotateY(180deg); }
+.flip .face { grid-area: 1 / 1; min-width: 0; border-radius: 16px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flip .front { pointer-events: auto; }
+.flip.on .front { pointer-events: none; }
+.flip .back {
+  transform: rotateY(180deg); pointer-events: none; min-height: 17rem; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; padding: 1.6rem 1rem; text-align: center;
+  background: linear-gradient(160deg, var(--c1), var(--c2)); color: var(--cink);
+  border: 1.5px solid var(--cbd); box-shadow: inset 0 0 0 5px rgba(255, 255, 255, .4);
+}
+.flip.on .back { pointer-events: auto; }
+.back .b-spark { width: 15px; height: 15px; fill: #fff; opacity: .95; position: absolute; }
+.back .b-spark.a { top: 14px; left: 16px; }
+.back .b-spark.b { bottom: 16px; right: 18px; width: 20px; height: 20px; }
+.back .b-spark.c { top: 18px; right: 22px; width: 10px; height: 10px; opacity: .8; }
+.back .b-name { font-family: var(--serif); font-weight: 700; font-size: 1.75rem; letter-spacing: .14em; padding-left: .14em; line-height: 1.3; }
+.back .b-sub { margin: 0; font-family: var(--serif); font-size: .85rem; line-height: 1.7; max-width: 16rem; opacity: .85; }
+.back .b-btns { display: flex; flex-direction: column; gap: .5rem; width: min(13rem, 100%); margin-top: .7rem; }
+.back .b-btn {
+  all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: center; min-height: 40px; padding: .15rem 1rem;
+  border-radius: 999px; cursor: pointer; text-decoration: none; text-align: center;
+  font-family: var(--serif); font-weight: 700; font-size: .9rem; color: var(--cink);
+  background: var(--cbtn); border: 1.5px solid rgba(255, 255, 255, .95); box-shadow: 0 3px 0 rgba(0, 0, 0, .06);
+}
+.back .b-btn.alt { background: rgba(255, 255, 255, .7); }
+.back .b-btn.off { opacity: .6; cursor: default; pointer-events: none; }
+.back .b-btn:focus-visible { outline: 3px solid var(--cink); outline-offset: 2px; }
+.flip:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.hint { margin: 0 0 .5rem; }
+@media (prefers-reduced-motion: reduce) { .flip { transition: none; } }
+
 /* Author page */
 .author-card {
   position: relative; background: var(--surface); border: 1.5px solid var(--silver); border-radius: 26px;
@@ -373,6 +407,7 @@ main { min-height: 40vh; }
         <p id="pdlgCaption"></p>
       </div>
       <div class="imgtools" id="ptools">
+        <p class="notice hint" id="pHint" hidden>輕點照片，翻面看看是誰～</p>
         <a class="dl" id="pdl" href="#">下載圖片</a>
         <p class="notice">圖片皆為AI生成，不得做商業用途。</p>
       </div>
@@ -391,6 +426,7 @@ main { min-height: 40vh; }
    在這裡改內容就好。
    新增角色：複製一整個 { ... }，貼在該分類最後一個後面，cat 填分類代號（qq 或 yd）。
    新增系列格子：在 PHOTOS 相簿的 photos 裡加 { image: "封面圖", images: ["圖1", "圖2", ...], title: "", caption: "" }；images 留空就是留白格（點了不會開）；加上 soon: true 會變成「Coming soon」格；加上 locked: true 也會點不進去（想開放時把它刪掉）。
+   who：在格子裡加 who: ["紀遇", "沈謙", ...]（照片順序，名字要跟角色頁一模一樣），那格的照片就能點一下翻面，背面顯示角色名字、「查看角色」和「前往對話」；沒寫 who 的格子照舊。相簿的 cat（qq 或 yd）決定名字對到哪一個分類的角色。
    image：單張圖片路徑；images：多張圖片（點開後可左右滑），例如 images: ["images/a.webp", "images/b.webp"]。
    留空會顯示柔色佔位圖。
    links：一個或兩個都可以，每個是 { label: "按鈕文字", url: "網址" }。
@@ -420,9 +456,9 @@ const PHOTOS = {
   tabLabel: "主題相冊",
   intro: "",
   albums: [
-    { title: "卿卿我我", blurb: "", cover: "album/album%20(1).webp",
+    { title: "卿卿我我", cat: "qq", blurb: "", cover: "album/album%20(1).webp",
       photos: [
-        { image: "handkiss/handkiss.webp", images: ["handkiss/handkiss%20(1).webp", "handkiss/handkiss%20(2).webp", "handkiss/handkiss%20(3).webp", "handkiss/handkiss%20(4).webp", "handkiss/handkiss%20(5).webp", "handkiss/handkiss%20(6).webp", "handkiss/handkiss%20(7).webp", "handkiss/handkiss%20(8).webp", "handkiss/handkiss%20(9).webp"], title: "", caption: "吻手禮" },
+        { image: "handkiss/handkiss.webp", images: ["handkiss/handkiss%20(1).webp", "handkiss/handkiss%20(2).webp", "handkiss/handkiss%20(3).webp", "handkiss/handkiss%20(4).webp", "handkiss/handkiss%20(5).webp", "handkiss/handkiss%20(6).webp", "handkiss/handkiss%20(7).webp", "handkiss/handkiss%20(8).webp", "handkiss/handkiss%20(9).webp"], title: "", caption: "吻手禮", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽", "藍澄禮"] },
         { image: "flower/flower.webp", images: ["flower/flower%20(1).webp", "flower/flower%20(2).webp", "flower/flower%20(3).webp", "flower/flower%20(4).webp", "flower/flower%20(5).webp", "flower/flower%20(6).webp", "flower/flower%20(7).webp", "flower/flower%20(8).webp", "flower/flower%20(9).webp"], title: "", caption: "花房" },
         { image: "lumina/lumina.webp", images: ["lumina/lumina%20(1).webp", "lumina/lumina%20(2).webp", "lumina/lumina%20(3).webp", "lumina/lumina%20(4).webp", "lumina/lumina%20(5).webp", "lumina/lumina%20(6).webp", "lumina/lumina%20(7).webp", "lumina/lumina%20(8).webp", "lumina/lumina%20(9).webp"], title: "", caption: "LUMINA" },
         { image: "firework/firework.webp", images: ["firework/firework%20(1).webp", "firework/firework%20(2).webp", "firework/firework%20(3).webp", "firework/firework%20(4).webp", "firework/firework%20(5).webp", "firework/firework%20(6).webp", "firework/firework%20(7).webp", "firework/firework%20(8).webp", "firework/firework%20(9).webp"], title: "", caption: "織星夜祭" },
@@ -437,7 +473,7 @@ const PHOTOS = {
         { image: "rabbit/rabbit.webp", images: ["rabbit/rabbit%20(1).webp", "rabbit/rabbit%20(2).webp", "rabbit/rabbit%20(3).webp", "rabbit/rabbit%20(4).webp", "rabbit/rabbit%20(5).webp", "rabbit/rabbit%20(6).webp", "rabbit/rabbit%20(7).webp", "rabbit/rabbit%20(8).webp", "rabbit/rabbit%20(9).webp"], title: "", caption: "待公開", locked: true },
         { soon: true, caption: "敬請期待" }
       ] },
-    { title: "鴨答鴨答", blurb: "", cover: "album/album%20(2).webp",
+    { title: "鴨答鴨答", cat: "yd", blurb: "", cover: "album/album%20(2).webp",
       photos: [
         { image: "ydflower/ydflower.webp", images: ["ydflower/ydflower%20(1).webp", "ydflower/ydflower%20(2).webp", "ydflower/ydflower%20(3).webp"], title: "", caption: "花" },
         { image: "ydfirework/ydfirework.webp", images: ["ydfirework/ydfirework%20(1).webp", "ydfirework/ydfirework%20(2).webp", "ydfirework/ydfirework%20(3).webp"], title: "", caption: "祭典煙火" },
@@ -852,6 +888,62 @@ let pCount = 1, pRaf = 0;
 const pBehavior = () => matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 let pItems = [], pCell = 0, pLocked = false;
 /* 剛打開時，圖片載入會讓版面變動、瀏覽器可能把捲動位置帶走；載入期間一直固定在第一張，直到你手動滑動或按按鈕 */
+/* photo flip helpers：每個角色的馬卡龍代表色（c1/c2 背景漸層、btn 按鈕、ink 文字、bd 邊框） */
+const HUES = {
+  "紀遇":   { c1: "#d9eafc", c2: "#b9d4f5", btn: "#a3c5ef", ink: "#2f4f7a", bd: "rgba(255,255,255,.85)" },
+  "沈謙":   { c1: "#fffae2", c2: "#fdf0b8", btn: "#fae99f", ink: "#715712", bd: "rgba(255,255,255,.85)" },
+  "黎野":   { c1: "#e8defa", c2: "#d0c0f1", btn: "#bca8e8", ink: "#54428a", bd: "rgba(255,255,255,.85)" },
+  "秦大衛": { c1: "#e6e8ec", c2: "#cfd3da", btn: "#bcc1cb", ink: "#4d5461", bd: "rgba(255,255,255,.85)" },
+  "江敬舟": { c1: "#fde2ed", c2: "#f8c5d9", btn: "#f4abc7", ink: "#8f3f64", bd: "rgba(255,255,255,.85)" },
+  "凌遠":   { c1: "#fccdd3", c2: "#f5a3af", btn: "#ef8a9a", ink: "#8f2c3d", bd: "rgba(255,255,255,.85)" },
+  "裴肆":   { c1: "#d2e8d9", c2: "#abd3ba", btn: "#93c4a5", ink: "#2f6246", bd: "rgba(255,255,255,.85)" },
+  "向陽":   { c1: "#fffefb", c2: "#f4eee5", btn: "#eae1d4", ink: "#6f6355", bd: "#e3d9cb" },
+  "藍澄禮": { c1: "#fde5ca", c2: "#f9cb97", btn: "#f6b979", ink: "#8a4f18", bd: "rgba(255,255,255,.85)" }
+};
+const HUE_DEFAULT = { c1: "#dce9fa", c2: "#bcd6f2", btn: "#a3c5ef", ink: "#2f4f7a", bd: "rgba(255,255,255,.85)" };
+function slideInner(a, cell, k, src, cellIdx) {
+  const img = imgTag(src, k, a.title + " " + (cellIdx + 1) + "-" + (k + 1));
+  const nm = cell.who && cell.who[k];
+  if (!nm) return img;
+  const idx = CHARACTERS.findIndex((c) => c.cat === a.cat && c.name === nm);
+  const c = idx >= 0 ? CHARACTERS[idx] : null;
+  const h = HUES[nm] || HUE_DEFAULT;
+  const link = c && c.links && c.links[0];
+  const chat = link && link.url
+    ? `<a class="b-btn alt" href="${esc(safeUrl(link.url))}" target="_blank" rel="noopener noreferrer">${esc(link.label)}</a>`
+    : `<span class="b-btn alt off">尚未公開</span>`;
+  return `<div class="flip" role="button" tabindex="0" aria-pressed="false" aria-label="翻面看是誰">
+    <div class="face front">${img}</div>
+    <div class="face back" style="--c1:${h.c1};--c2:${h.c2};--cbtn:${h.btn};--cink:${h.ink};--cbd:${h.bd}">
+      <svg class="b-spark a" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.8 6.6 5.4 11.2 12 12-6.6.8-11.2 5.4-12 12-.8-6.6-5.4-11.2-12-12C6.6 11.2 11.2 6.6 12 0z"/></svg>
+      <svg class="b-spark b" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.8 6.6 5.4 11.2 12 12-6.6.8-11.2 5.4-12 12-.8-6.6-5.4-11.2-12-12C6.6 11.2 11.2 6.6 12 0z"/></svg>
+      <svg class="b-spark c" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.8 6.6 5.4 11.2 12 12-6.6.8-11.2 5.4-12 12-.8-6.6-5.4-11.2-12-12C6.6 11.2 11.2 6.6 12 0z"/></svg>
+      <div class="b-name">${esc(nm)}</div>
+      <div class="b-btns">
+        ${idx >= 0 ? `<button type="button" class="b-btn" data-view-char="${idx}">查看角色</button>` : ""}
+        ${chat}
+      </div>
+    </div>
+  </div>`;
+}
+function toggleFlip(f) { const on = f.classList.toggle("on"); f.setAttribute("aria-pressed", String(on)); }
+function openChar(idx) {
+  pdlg.close();
+  show(CHARACTERS[idx].cat);   /* 回到該分類的角色頁，關掉角色卡就停在那裡 */
+  fill(idx);
+  dlg.showModal();
+}
+$("pdlgFrame").addEventListener("click", (e) => {
+  const v = e.target.closest("[data-view-char]");
+  if (v) { e.stopPropagation(); openChar(Number(v.dataset.viewChar)); return; }
+  if (e.target.closest("a.b-btn")) return;
+  const f = e.target.closest(".flip");
+  if (f) toggleFlip(f);
+});
+$("pdlgFrame").addEventListener("keydown", (e) => {
+  if ((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("flip")) { e.preventDefault(); toggleFlip(e.target); }
+});
+
 function pinFirst() { const sl = $("pslides"); if (pLocked && sl && sl.scrollLeft !== 0) sl.scrollLeft = 0; }
 function setPhoto(n) {
   pCurrent = n;
@@ -863,6 +955,8 @@ function setPhoto(n) {
   $("pdlgCaption").textContent = "";
   $("pdlgCaption").hidden = true;
   $("pCount").textContent = (n + 1) + " / " + pItems.length;
+  $("pHint").hidden = !(cell.who && cell.who[n]);
+  document.querySelectorAll("#pslides .slide").forEach((sl, k) => { if (k !== n) { const f = sl.querySelector(".flip.on"); if (f) toggleFlip(f); } });
   $("ptools").hidden = false;
   const src = pItems[n];
   if (src) { $("pdl").href = src; $("pdl").download = a.title + "-" + (pCell + 1) + "-" + (n + 1) + "." + extOf(src); }
@@ -877,7 +971,7 @@ function fillPhoto(cellIdx) {
   pItems = cell.images && cell.images.length ? cell.images : (cell.image ? [cell.image] : []);
   pCount = pItems.length;
   $("pdlgFrame").innerHTML = `<div class="slides" id="pslides" aria-label="照片，可左右滑動">${pItems.map((src, k) =>
-    `<div class="slide">${imgTag(src, k, a.title + " " + (cellIdx + 1) + "-" + (k + 1))}</div>`).join("")}</div>`;
+    `<div class="slide">${slideInner(a, cell, k, src, cellIdx)}</div>`).join("")}</div>`;
   const sl = $("pslides");
   pLocked = true;
   pinFirst();
