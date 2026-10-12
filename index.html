@@ -349,7 +349,7 @@ main { min-height: 40vh; }
     <svg class="spark" viewBox="0 0 24 24"><path d="M12 0c.8 6.6 5.4 11.2 12 12-6.6.8-11.2 5.4-12 12-.8-6.6-5.4-11.2-12-12C6.6 11.2 11.2 6.6 12 0z"/></svg>
     <svg class="spark s2" viewBox="0 0 24 24"><path d="M12 0c.8 6.6 5.4 11.2 12 12-6.6.8-11.2 5.4-12 12-.8-6.6-5.4-11.2-12-12C6.6 11.2 11.2 6.6 12 0z"/></svg>
   </div>
-  <h1 id="siteTitle" class="sr-only">汐汐不汐汐</h1>
+  <h1 id="siteTitle" class="sr-only">角色卡冊</h1>
 </header>
 
 <div class="tabbar">
@@ -404,7 +404,7 @@ main { min-height: 40vh; }
         <p id="pdlgCaption"></p>
       </div>
       <div class="imgtools" id="ptools">
-        <p class="notice hint" id="pHint" hidden>輕點圖片 與他相遇</p>
+        <p class="notice hint" id="pHint" hidden>輕點照片，與他相遇(ゝ∀･)</p>
         <a class="dl" id="pdl" href="#">下載圖片</a>
         <p class="notice">圖片皆為AI生成，不得做商業用途。</p>
       </div>
@@ -460,11 +460,11 @@ const PHOTOS = {
         { image: "lumina/lumina.webp", images: ["lumina/lumina%20(1).webp", "lumina/lumina%20(2).webp", "lumina/lumina%20(3).webp", "lumina/lumina%20(4).webp", "lumina/lumina%20(5).webp", "lumina/lumina%20(6).webp", "lumina/lumina%20(7).webp", "lumina/lumina%20(8).webp", "lumina/lumina%20(9).webp"], title: "", caption: "LUMINA", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽", "藍澄禮"] },
         { image: "firework/firework.webp", images: ["firework/firework%20(1).webp", "firework/firework%20(2).webp", "firework/firework%20(3).webp", "firework/firework%20(4).webp", "firework/firework%20(5).webp", "firework/firework%20(6).webp", "firework/firework%20(7).webp", "firework/firework%20(8).webp", "firework/firework%20(9).webp"], title: "", caption: "織星夜祭", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽", "藍澄禮"] },
         { image: "birth/birth.webp", images: ["birth/birth%20(1).webp", "birth/birth%20(2).webp", "birth/birth%20(3).webp", "birth/birth%20(4).webp", "birth/birth%20(5).webp", "birth/birth%20(6).webp", "birth/birth%20(7).webp", "birth/birth%20(8).webp", "birth/birth%20(9).webp"], title: "", caption: "專屬於你的", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽", "藍澄禮"] },
-        { image: "birthday/birthday.webp", images: ["birthday/birthday%20(1).webp", "birthday/birthday%20(2).webp", "birthday/birthday%20(3).webp", "birthday/birthday%20(4).webp"], title: "", caption: "他的日子", who: ["黎野", "紀遇", "秦大衛", "江敬舟"] },
+        { image: "birthday/birthday.webp", images: ["birthday/birthday%20(1).webp", "birthday/birthday%20(2).webp", "birthday/birthday%20(3).webp", "birthday/birthday%20(4).webp"], title: "", caption: "他的日子", who: ["紀遇", "沈謙", "黎野", "秦大衛"] },
         { image: "summer/summer.webp", images: ["summer/summer%20(1).webp", "summer/summer%20(2).webp", "summer/summer%20(3).webp", "summer/summer%20(4).webp", "summer/summer%20(5).webp", "summer/summer%20(6).webp"], title: "", caption: "夏日", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠"] },
         { image: "handdraw/handdraw.webp", images: ["handdraw/handdraw%20(1).webp", "handdraw/handdraw%20(2).webp", "handdraw/handdraw%20(3).webp", "handdraw/handdraw%20(4).webp", "handdraw/handdraw%20(5).webp", "handdraw/handdraw%20(6).webp", "handdraw/handdraw%20(7).webp", "handdraw/handdraw%20(8).webp"], title: "", caption: "潦草的他", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽"] },
         { image: "mag/mag.webp", images: ["mag/mag%20(1).webp", "mag/mag%20(2).webp", "mag/mag%20(3).webp", "mag/mag%20(4).webp", "mag/mag%20(5).webp", "mag/mag%20(6).webp", "mag/mag%20(7).webp", "mag/mag%20(8).webp", "mag/mag%20(9).webp"], title: "", caption: "男模", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽", "藍澄禮"] },
-        { image: "sunglass/sunglass.webp", images: ["sunglass/sunglass%20(1).webp", "sunglass/sunglass%20(2).webp", "sunglass/sunglass%20(3).webp", "sunglass/sunglass%20(4).webp", "sunglass/sunglass%20(5).webp", "sunglass/sunglass%20(6).webp", "sunglass/sunglass%20(7).webp", "sunglass/sunglass%20(8).webp"], title: "", caption: "墨鏡哥", who: ["紀遇", "沈謙", "黎野", "秦大衛", "凌遠", "江敬舟", "裴肆", "向陽"] },
+        { image: "sunglass/sunglass.webp", images: ["sunglass/sunglass%20(1).webp", "sunglass/sunglass%20(2).webp", "sunglass/sunglass%20(3).webp", "sunglass/sunglass%20(4).webp", "sunglass/sunglass%20(5).webp", "sunglass/sunglass%20(6).webp", "sunglass/sunglass%20(7).webp", "sunglass/sunglass%20(8).webp"], title: "", caption: "墨鏡哥們", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽"] },
         { image: "teacher/teacher.webp", images: ["teacher/teacher%20(1).webp", "teacher/teacher%20(2).webp", "teacher/teacher%20(3).webp", "teacher/teacher%20(4).webp", "teacher/teacher%20(5).webp", "teacher/teacher%20(6).webp", "teacher/teacher%20(7).webp", "teacher/teacher%20(8).webp"], title: "", caption: "教師", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽"] },
         { image: "sleep/sleep.webp", images: ["sleep/sleep%20(1).webp", "sleep/sleep%20(2).webp", "sleep/sleep%20(3).webp", "sleep/sleep%20(4).webp", "sleep/sleep%20(5).webp", "sleep/sleep%20(6).webp", "sleep/sleep%20(7).webp", "sleep/sleep%20(8).webp"], title: "", caption: "睡前儀式", who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽"] },
         { image: "rabbit/rabbit.webp", images: ["rabbit/rabbit%20(1).webp", "rabbit/rabbit%20(2).webp", "rabbit/rabbit%20(3).webp", "rabbit/rabbit%20(4).webp", "rabbit/rabbit%20(5).webp", "rabbit/rabbit%20(6).webp", "rabbit/rabbit%20(7).webp", "rabbit/rabbit%20(8).webp", "rabbit/rabbit%20(9).webp"], title: "", caption: "待公開", locked: true, who: ["紀遇", "沈謙", "黎野", "秦大衛", "江敬舟", "凌遠", "裴肆", "向陽", "藍澄禮"] },
@@ -472,8 +472,8 @@ const PHOTOS = {
       ] },
     { title: "鴨答鴨答", cat: "yd", blurb: "", cover: "album/album%20(2).webp",
       photos: [
-        { image: "ydflower/ydflower.webp", images: ["ydflower/ydflower%20(1).webp", "ydflower/ydflower%20(2).webp", "ydflower/ydflower%20(3).webp"], title: "", caption: "花" },
-        { image: "ydfirework/ydfirework.webp", images: ["ydfirework/ydfirework%20(1).webp", "ydfirework/ydfirework%20(2).webp", "ydfirework/ydfirework%20(3).webp"], title: "", caption: "祭典煙火" },
+        { image: "ydflower/ydflower.webp", images: ["ydflower/ydflower%20(1).webp", "ydflower/ydflower%20(2).webp", "ydflower/ydflower%20(3).webp"], title: "", caption: "花", who: ["梁斐川", "傅池逸", "顧恆"] },
+        { image: "ydfirework/ydfirework.webp", images: ["ydfirework/ydfirework%20(1).webp", "ydfirework/ydfirework%20(2).webp", "ydfirework/ydfirework%20(3).webp"], title: "", caption: "祭典煙火", who: ["梁斐川", "傅池逸", "顧恆"] },
         { soon: true, caption: "敬請期待" }
       ] }
   ]
@@ -895,7 +895,10 @@ const HUES = {
   "凌遠":   { c1: "#fccdd3", c2: "#f5a3af", btn: "#ef8a9a", ink: "#8f2c3d", bd: "rgba(255,255,255,.85)" },
   "裴肆":   { c1: "#d2e8d9", c2: "#abd3ba", btn: "#93c4a5", ink: "#2f6246", bd: "rgba(255,255,255,.85)" },
   "向陽":   { c1: "#fffefb", c2: "#f4eee5", btn: "#eae1d4", ink: "#6f6355", bd: "#e3d9cb" },
-  "藍澄禮": { c1: "#fde5ca", c2: "#f9cb97", btn: "#f6b979", ink: "#8a4f18", bd: "rgba(255,255,255,.85)" }
+  "藍澄禮": { c1: "#fde5ca", c2: "#f9cb97", btn: "#f6b979", ink: "#8a4f18", bd: "rgba(255,255,255,.85)" },
+  "梁斐川": { c1: "#8ea6d8", c2: "#6580bf", btn: "#a9bde6", ink: "#14214a", bd: "rgba(255,255,255,.85)" },
+  "傅池逸": { c1: "#e3f4dc", c2: "#c4e6b8", btn: "#aedb9f", ink: "#3d6a2e", bd: "rgba(255,255,255,.85)" },
+  "顧恆":   { c1: "#dcc3a6", c2: "#b8926e", btn: "#cfae88", ink: "#4a2f17", bd: "rgba(255,255,255,.85)" }
 };
 const HUE_DEFAULT = { c1: "#dce9fa", c2: "#bcd6f2", btn: "#a3c5ef", ink: "#2f4f7a", bd: "rgba(255,255,255,.85)" };
 function slideInner(a, cell, k, src, cellIdx) {
